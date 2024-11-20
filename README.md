@@ -1,0 +1,2 @@
+# JaviVadigu
+Querys SQL
