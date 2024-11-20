@@ -1,7 +1,7 @@
 # JaviVadigu
 Querys SQL
 
-//                                               CREAR KITS DE MEDICAMENTO +500 Unidades
+--                                              CREAR KITS DE MEDICAMENTO +500 Unidades
 
 Select * from Empresa where EmpresaID = 11
 
@@ -58,7 +58,7 @@ Select top 600
 
 from #TMP_Stock t
 
-//                                              Consultas urgencia donde tenemos internacionid
+--                                              Consultas urgencia donde tenemos internacionid
 
 Select * from urgencia where internacionid = '3341';
 go
@@ -73,9 +73,9 @@ select * from UrgenciaFinAtencion where urgenciaid = '3214';
 SELECT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME = 'estudioGrupoID'; -- valor a remplazar	
 
 
-//                                                               Convenios
+--                                                             Convenios
 
-	"-- prod
+	-- prod
 
 select * from ConvenioOSconceptoPrecio -- ok
 where ConvenioOSconceptoFactID in (
@@ -160,7 +160,7 @@ where ObraSocialID = 186
 DBCC CHECKIDENT (cuentaCorriente2, RESEED, 0)"
 
 
-//                                               Borrar info_Configuracion por usuario id 
+--                                             Borrar info_Configuracion por usuario id 
 
 	
 select * from usuario where username = 'smoreyra' -- 4000
