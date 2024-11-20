@@ -157,16 +157,16 @@ where ObraSocialID = 186
 delete from cuentaCorriente2  -- ok
 where ObraSocialID = 186
 
-DBCC CHECKIDENT (cuentaCorriente2, RESEED, 0)"
+DBCC CHECKIDENT (cuentaCorriente2, RESEED, 0)
 
 
---                                             Borrar info_Configuracion por usuario id 
+--                                          Borrar info_Configuracion por usuario id 
 
 	
 select * from usuario where username = 'smoreyra' -- 4000
 select * from InformePermiso where usuarioid = 4000
 select * from INF_Configuracion where usuarioid = 4000
--- delete from INF_Configuracion where usuarioid = 4000
+--delete from INF_Configuracion where usuarioid = 4000
 
 
 
