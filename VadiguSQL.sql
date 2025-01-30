@@ -218,6 +218,10 @@ SET Valor = *** poner el ID del cliente que estaba antes.***
 WHERE ParametroSistemaID = 'CLIENTEID'
 
 
+update PARAMETROSISTEMAVALOR set valor = '12' WHERE PARAMETROSISTEMAID LIKE 'clienteid'
+
+
+
 
 
 
