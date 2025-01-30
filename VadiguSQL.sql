@@ -179,3 +179,48 @@ Select
     is_disabled AS IsDisabled
 FROM sys.triggers
 WHERE name = 'TR_TipoAdmisionAud_upd';
+
+Modificar ClienteID 
+
+ClienteDescripcion = ClienteID
+--------------------------------------
+MSI = 1
+HospitalJuanDPeron = 2
+MinisteriodeSaludProvinciaDeCordoba = 3
+ProvinciaDeFormosa = 4
+CiudadDeBuenosAires = 5
+HospitalLaCaleraProvinciaDeCordoba = 6
+ProvinciaDeSanJuan = 7
+Asemedis = 8
+Merlo = 9
+HaciendoCamino = 10
+Prefectura = 11
+BpsUruguay = 12
+Osplad = 13
+Catamarca = 14
+Jujuy = 15
+Orien = 16
+Osde = 17
+Albya = 18
+CMSJ = 19
+Formosa = 20
+Mexico = 21
+CLC = 22
+-- Para consultar que ClienteID es el ambiente donde estoy:
+Select Valor as ClienteID from ParametroSistemaValor where ParametroSistemaID = 'CLIENTEID'
+-- Para cambiar el ClienteID por un rato y volverlo como estaba:
+UPDATE ParametroSistemaValor
+SET Valor = *** poner el ID del cliente ***
+WHERE ParametroSistemaID = 'CLIENTEID'
+-- Para voverlo como estaba antes
+UPDATE ParametroSistemaValor
+SET Valor = *** poner el ID del cliente que estaba antes.***
+WHERE ParametroSistemaID = 'CLIENTEID'
+
+
+
+
+
+
+
+
