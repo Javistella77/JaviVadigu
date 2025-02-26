@@ -169,16 +169,6 @@ select * from INF_Configuracion where usuarioid = 4000
 --delete from INF_Configuracion where usuarioid = 4000
 
 
---                                              Eliminar trigger 
-DISABLE TRIGGER TR_TipoAdmisionAud_upd ON TurnoEncabezado
-
---                                             Verificar que quede desabilitado 
-y esto para verificar que quedo deshabilado:
-Select
-    name AS TriggerName,
-    is_disabled AS IsDisabled
-FROM sys.triggers
-WHERE name = 'TR_TipoAdmisionAud_upd';
 
 Modificar ClienteID 
 
@@ -217,37 +207,6 @@ UPDATE ParametroSistemaValor
 SET Valor = *** poner el ID del cliente que estaba antes.***
 WHERE ParametroSistemaID = 'CLIENTEID'
 
-
-update PARAMETROSISTEMAVALOR set valor = '12' WHERE PARAMETROSISTEMAID LIKE 'clienteid'
-
-
-
-
--- Habilitar Turneros utlizando ArbolItem
-
--- Se habilitan turneros MVC AMB, LAB, IMG, ODO (es igual en todos los ambientes)
-UPDATE ArbolItem
- SET Link = '@/TurnoInmediatoAmbulatorio', Descripcion = 'Gestión de Turnos'
- WHERE ArbolItemID = 3
-UPDATE ArbolItem
- SET Link = '@/TurnoInmediatoAmbulatorio', Descripcion = 'Turnos Call Center'
- WHERE ArbolItemID = 719
-UPDATE ArbolItem
- SET Link = '@/TurnoInmediatoImagen', Descripcion = 'Turnos'
- WHERE ArbolItemID = 138
-UPDATE ArbolItem
- SET Link = '@/TurnoInmediatoLaboratorio', Descripcion = 'Turnos'
- WHERE ArbolItemID = 143
-UPDATE ArbolItem
- SET Link = '@/TurnoInmediatoOdontologia', Descripcion = 'Turnos'
- WHERE ArbolItemID = 317
-
-	-- Ocultar ArbolItem
-
--- Se ocultan agendas viejas para crear turnos (es igual en todos los ambientes)
-UPDATE ArbolItem
- SET Visible = 0
- WHERE ArbolItemID IN (85, 150, 151, 318)
 
 
 
