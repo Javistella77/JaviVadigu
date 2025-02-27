@@ -208,5 +208,8 @@ SET Valor = *** poner el ID del cliente que estaba antes.***
 WHERE ParametroSistemaID = 'CLIENTEID'
 
 
+_buscar -> Busqueda de sp 
+_buscar2 -> buscar tablas
+
 
 
