@@ -228,3 +228,66 @@ update statistics PAciente
 update statistics Turnoencabezado
 
 
+
+-- Número de tablas más usadas
+DECLARE @TopN INT = 10;
+
+SELECT TOP (@TopN)
+    s.name AS SchemaName,
+    t.name AS TableName,
+    SUM(us.user_seeks + us.user_scans + us.user_lookups + us.user_updates) AS TotalAccesses
+FROM sys.dm_db_index_usage_stats us
+JOIN sys.tables t ON t.object_id = us.object_id
+JOIN sys.schemas s ON t.schema_id = s.schema_id
+WHERE us.database_id = DB_ID()
+GROUP BY s.name, t.name
+ORDER BY TotalAccesses DESC;
+
+
+ 2 ACTUALIZA ALGO INTERNO DEL MOTOR ( Estadisticas) DE LAS TABLAS MAS USADAS ...se debe correr desde SQL Manag...no funka en tools
+-- Parámetro: Número de tablas más usadas a considerar
+DECLARE @TopN INT = 10;
+
+-- Tabla temporal para almacenar los comandos
+DECLARE @SQL NVARCHAR(MAX) = '';
+
+-- Generar comandos de UPDATE STATISTICS
+SELECT @SQL = STRING_AGG('UPDATE STATISTICS [' + s.name + '].[' + t.name + '];', CHAR(13))
+FROM (
+    SELECT 
+        OBJECT_ID AS object_id,
+        MAX(user_seeks + user_scans + user_lookups) AS usage_count
+    FROM sys.dm_db_index_usage_stats
+    WHERE database_id = DB_ID()
+    GROUP BY OBJECT_ID
+) AS usage
+JOIN sys.tables t ON t.object_id = usage.object_id
+JOIN sys.schemas s ON t.schema_id = s.schema_id
+ORDER BY usage.usage_count DESC
+OFFSET 0 ROWS FETCH NEXT @TopN ROWS ONLY;
+
+-- Ejecutar los comandos generados
+EXEC sp_executesql @SQL;
+
+3 COMO SABER SI UNA TABLA ( de las mas usadas) necesita indices Y SUGERIR CUALES PONER
+DECLARE @TableName NVARCHAR(256) = 'TuNombreTabla';  -- <-- Cambia esto por tu tabla
+
+SELECT 
+    OBJECT_NAME(mid.object_id) AS TableName,
+    migs.user_seeks, 
+    migs.user_scans,
+    mid.equality_columns,
+    mid.inequality_columns,
+    mid.included_columns,
+    migs.avg_total_user_cost,
+    migs.avg_user_impact,
+    'CREATE INDEX IX_' + OBJECT_NAME(mid.object_id) + '_' +
+        REPLACE(REPLACE(ISNULL(mid.equality_columns, '') + '_' + ISNULL(mid.inequality_columns, ''), ', ', '_'), '[', '') +
+        ' ON ' + OBJECT_NAME(mid.object_id) + '(' + ISNULL(mid.equality_columns, '') +
+        CASE WHEN mid.inequality_columns IS NOT NULL THEN ',' + mid.inequality_columns ELSE '' END + ')' +
+        ISNULL(' INCLUDE (' + mid.included_columns + ')', '') AS SuggestedIndex
+FROM sys.dm_db_missing_index_details mid
+JOIN sys.dm_db_missing_index_groups mig ON mid.index_handle = mig.index_handle
+JOIN sys.dm_db_missing_index_group_stats migs ON mig.index_group_handle = migs.group_handle
+WHERE OBJECT_NAME(mid.object_id) = @TableName
+ORDER BY migs.avg_user_impact DESC;
