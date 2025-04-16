@@ -211,5 +211,20 @@ WHERE ParametroSistemaID = 'CLIENTEID'
 _buscar -> Busqueda de sp 
 _buscar2 -> buscar tablas
 
+Solución indice caso cat prod 
+
+CREATE INDEX IX_SeguimientoEstudio_SeguimientoID]_ ON SeguimientoEstudio([SeguimientoID])
+10:11
+sino nos prenden fuego catamarca :smile:
+10:11
+y este
+CREATE INDEX IX_SeguimientoEstudio_EstudioGrupoID]_ ON SeguimientoEstudio([EstudioGrupoID])
+10:15
+mejoro ya bastante tirandole :
+update statistics Ocupacion
+update statistics EstudioControl
+update statistics EstudioSeguimiento
+update statistics PAciente
+update statistics Turnoencabezado
 
 
